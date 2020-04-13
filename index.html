@@ -1,0 +1,133 @@
+﻿<html>
+	<head>
+		<script type="text/javascript" src="js/processing.js"></script>
+	<head>
+
+	<body>
+		<script type ="text/processing">
+
+//Miao Liu - Interactivity and Media Code
+
+
+/* @pjs preload=,"MediaCodeDanceTest3.mp4", "MediaCodeStillTest2_1.mp4", "Ouch.wav", "Uh Be Gentle.wav", "Could You Stop Please.wav", "I'd Like To Dance.wav", "Stop Moving.wav", "Don't.wav", "I Don't Like That.wav"; */
+
+import processing.video.*; //import library 
+import processing.sound.*;
+Movie MeDancing; //create movie variable named MeDancing
+Movie MeStill; // create movie variable named MeStill
+//int lasttimemousemoved = -1; //setting initial timestamp  
+SoundFile ouch; 
+SoundFile idliketodance;
+SoundFile begentle;
+SoundFile couldyoustopplease;
+SoundFile stopmoving;
+SoundFile dont;
+SoundFile idontlikethat;
+int m = 0;
+int i = 0;
+int lastmovement = -1; // millis() records movement, 
+ArrayList<SoundFile> soundfiles = new ArrayList<SoundFile>();
+
+void setup() {
+  size(380, 700);
+  
+// VIDEO SETUP 
+
+  MeDancing = new Movie(this, "MediaCodeDanceTest3.mp4"); // loading emppty variable w data 
+  MeStill = new Movie(this, "MediaCodeStillTest2_1.mp4"); // loading empty varaible w data
+  MeDancing.loop(); // playing the data stored in variable MeDancing on loop
+  MeStill.loop();
+  MeDancing.volume(0);
+  MeStill.volume(0);
+  MeDancing.speed(0.5);
+  
+// AUDIO SETUP 
+ouch = new SoundFile(this, "Ouch.wav");
+begentle = new SoundFile(this, "Uh Be Gentle.wav");
+couldyoustopplease = new SoundFile(this, "Could You Stop Please.wav");
+idliketodance = new SoundFile(this, "I'd Like To Dance.wav");
+stopmoving = new SoundFile(this, "Stop Moving.wav");
+dont = new SoundFile(this, "Don't.wav");
+idontlikethat = new SoundFile(this, "I Don't Like That.wav"); 
+soundfiles.add(begentle);
+soundfiles.add(stopmoving);
+soundfiles.add(idliketodance);
+soundfiles.add(couldyoustopplease);  
+  
+}
+
+void draw() { 
+  
+ 
+//VIDEO INTERACTIVITY
+
+  tint(200,200,200,35); //like fill() and stroke(), applies to everything following
+  image(MeDancing, -275, 0, 900, 700);
+    if ((mouseX != pmouseX) || (mouseY != pmouseY)) {
+      tint(255,255,255,255); 
+      image(MeStill, -470, 0, 1300, 700);
+    }
+  
+  //println(mouseY); 
+  
+//SOUND INTERACTIVTY 
+
+ if (m == 3) {
+      SoundFile temp = soundfiles.get(i);
+      temp.play();
+      i++;
+      m = 0;
+ }
+      
+  if (i == 3) { //bc four elements in the array - dunno why but soundfiles.length keeps giving me error
+        i = 0;
+      }
+   
+}
+
+//we need the following to read and draw (visualize) the next frame 
+void movieEvent(Movie m) {
+    m.read();
+}
+
+void mousePressed() {
+  if ((mouseX >105) && (mouseX < 280))  {
+    if ((mouseY < 320) && (mouseY > 250)){
+    dont.play();
+    m++;
+    } 
+    if ((mouseY > 75) && (mouseY < 130 )) {
+    idontlikethat.play();
+    m++;
+    } else {
+    ouch.amp(0.1);
+    ouch.play();
+    m++; 
+    }
+  } 
+}
+  
+  
+
+
+  
+
+    
+  //if (m == 4) 
+
+
+
+//void timesincelastmovement(){
+  
+//}
+
+//void mouseMoved() {
+  
+  //lastmovement = millis(); //everytime the mouse is moved, the time is recorded 
+
+		</script>
+
+		<canvas id="sketch" style="border: 1px solid black;"></canvas>
+		
+	<body>
+<html>
